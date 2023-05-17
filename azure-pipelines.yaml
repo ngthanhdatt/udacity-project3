@@ -39,6 +39,7 @@ stages:
     - task: TerraformTaskV3@3
       displayName: 'terraform import env'
       inputs:
+        provider: 'azurerm'
         command: 'import'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         resourceAddress: 'module.resource_group.azurerm_resource_group.test'
