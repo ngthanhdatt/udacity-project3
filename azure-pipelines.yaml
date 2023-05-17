@@ -57,7 +57,7 @@ stages:
         provider: 'azurerm'
         command: 'validate'
         
-     - task: TerraformTaskV3@3
+    - task: TerraformTaskV3@3
       displayName: 'terraform import env'
       inputs:
         provider: 'azurerm'
