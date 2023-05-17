@@ -36,14 +36,6 @@ stages:
       inputs:
         terraformVersion: '1.2.9'
     
-    - task: TerraformTaskV3@3
-      displayName: 'terraform import env'
-      inputs:
-        provider: 'azurerm'
-        command: 'import'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-        resourceAddress: 'module.resource_group.azurerm_resource_group.test'
-        resourceId: "/subscriptions/c2974833-f9d6-49e2-b843-74513c83a919/resourceGroups/Azuredevops"  
     
     # Run Terraform Init on the pipeline agent 
     # ToDo: Replace the resource group name, storage account name, and container name below
@@ -64,6 +56,15 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'validate'
+        
+     - task: TerraformTaskV3@3
+      displayName: 'terraform import env'
+      inputs:
+        provider: 'azurerm'
+        command: 'import'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        resourceAddress: 'module.resource_group.azurerm_resource_group.test'
+        resourceId: "/subscriptions/c2974833-f9d6-49e2-b843-74513c83a919/resourceGroups/Azuredevops"  
 
     # OPTIONAL - This step is needed only if your Terraform VM uses an SSH key pair for login and you want your pipeline agent to connect to it. 
     # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module. 
