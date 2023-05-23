@@ -112,7 +112,7 @@ stages:
     # ToDo: Verify the working directory
     - task: CmdLine@2
       displayName: Run Data Validation Tests
-      continueOnError: trueS
+      continueOnError: true
       inputs:
         script: 'newman run data_validation.json -e environment.json --reporters cli,junit --reporter-junit-export TEST-DataValidation.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
