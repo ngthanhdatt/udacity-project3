@@ -105,7 +105,7 @@ stages:
     - task: CmdLine@2
       displayName: Install Newman Reporter JUnit
       inputs:
-        script: 'npm install -g newman-reporter-junitfullreport'
+        script: 'sudo npm install -g newman-reporter-junitfullreport'
         workingDirectory: $(System.DefaultWorkingDirectory)
 
     # Postman Data Validation Test Suite    
