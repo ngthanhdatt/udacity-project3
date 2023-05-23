@@ -1,0 +1,27 @@
+{
+	"id": "08d39bee-12df-4154-a4f8-f49c25556890",
+	"name": "environment",
+	"values": [
+		{
+			"key": "name",
+			"value": "dat",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "salary",
+			"value": "5000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "age",
+			"value": "20",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-05-19T07:52:32.963Z",
+	"_postman_exported_using": "Postman/10.14.3"
+}

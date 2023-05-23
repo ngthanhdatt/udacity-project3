@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "0a885814-4123-4c05-bc1c-bc28835f29d0",
+		"name": "Starter APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27318323",
+		"_collection_link": "https://solar-crescent-704690.postman.co/workspace/Team-Workspace~018a747a-fbbc-46f1-846e-aefa08ccf3a4/collection/27318323-0a885814-4123-4c05-bc1c-bc28835f29d0?action=share&creator=27318323&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Create Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful response\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});",
+							"var json = pm.response.json();",
+							"pm.environment.set(\"id\", json.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"salary\": \"{{salary}}\",\n    \"age\": \"{{age}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/create",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Successful response\", function () {",
+							"//     pm.expect(pm.response.text()).to.include(\"success\");",
+							"// });",
+							"const responseJson = pm.response.json();",
+							"pm.test(\"The response has all properties\", () => {",
+							"    const dataJson = responseJson.data.map(m => m );",
+							"      console.log(dataJson)",
+							"    // console.log(dataJson[0].id);",
+							"    for(let i = 0; i< dataJson.length; i++){",
+							"        pm.expect(dataJson[i].id).to.be.a(\"number\");",
+							"        pm.expect(dataJson[i].employee_name).to.be.a(\"string\");",
+							"        pm.expect(dataJson[i].employee_salary).to.be.a(\"number\");",
+							"        pm.expect(dataJson[i].employee_age).to.be.a(\"number\");",
+							"    }",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/employees",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
