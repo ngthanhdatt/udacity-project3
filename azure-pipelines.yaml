@@ -191,8 +191,8 @@ stages:
       vmImage: '/subscriptions/c761712a-772e-4832-b4d5-73b3a4b12e0b/resourceGroups/Azuredevops/providers/Microsoft.Compute/galleries/myVMGallery/images/myVMdefinition/versions/1.0.0'      
     environment: '$(environmentName)' 
     strategy:
-      # runOnce:
-      rolling:
+      runOnce:
+      # rolling:
         maxParallel: 2
         deploy:
           steps:
