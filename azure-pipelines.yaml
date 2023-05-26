@@ -193,7 +193,7 @@ stages:
     strategy:
       runOnce:
       # rolling:
-        maxParallel: 2
+        # maxParallel: 2
         deploy:
           steps:
           - task: AzureWebApp@1
