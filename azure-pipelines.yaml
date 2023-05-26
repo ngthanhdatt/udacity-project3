@@ -18,7 +18,7 @@ variables:
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
-  environmentName: 'test'
+  environmentName: 'test-linux'
  
 
 stages:
@@ -105,7 +105,7 @@ stages:
     - task: CmdLine@2
       displayName: Install Newman Reporter JUnit
       inputs:
-        script: 'npm install -g newman-reporter-junitfullreport'
+        script: 'sudo npm install -g newman-reporter-junitfullreport'
         workingDirectory: $(System.DefaultWorkingDirectory)
 
     # Postman Data Validation Test Suite    
@@ -114,7 +114,7 @@ stages:
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run data_validation.json -e environment.json --reporters cli,junit --reporter-junit-export TEST-DataValidation.xml'
+        script: 'newman run data_validation.json -e environment.json'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman Regression Test Suite    
     # ToDo: Verify the working directory
@@ -122,7 +122,7 @@ stages:
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run regression.json -e environment.json --reporters cli,junit --reporter-junit-export TEST-Regression.xml'
+        script: 'newman run regression.json -e environment.json'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman - Publish Results 
     # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
@@ -179,86 +179,86 @@ stages:
       displayName: 'Upload JMeter Package'
       artifact: drop-perftests
 
-# #--------------------------------------------#  
-# # DEPLOYMENT STAGE
-# #--------------------------------------------#    
-# - stage: Deploy
-#   jobs:
-#   #--------------------------------------------#  
-#   # Deploy FakeRestAPI Web App
-#   - deployment: FakeRestAPI
-#     pool:
-#       vmImage: 'Ubuntu-18.04'      
-#     environment: '$(environmentName)' 
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: AzureWebApp@1
-#             displayName: 'Deploy Azure Web App'
-#             inputs:
-#               azureSubscription: '$(azureSubscription)'
-#               appName: '$(appName)'           
-#               appType: webApp
-#               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
-#           #--------------------------------------------#    
-#           # Run JMeter test suite against the App Service
-#           - task: CmdLine@2
-#             inputs:
-#               script: |
-#                 sudo apt-get update
-#                 sudo apt-get install -y openjdk-8-jdk
-#                 wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.5.tgz"
-#                 tar -xzf apache-jmeter-5.5.tgz
-#                 unzip -o $(Build.BuildId)-perftests.zip
-#                 ./apache-jmeter-5.5/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
-#                 cat jmeter.log                                                                         
-#               workingDirectory: $(Pipeline.Workspace)/drop-perftests       
-#               displayName: 'Run JMeter Tests'
+#--------------------------------------------#  
+# DEPLOYMENT STAGE
+#--------------------------------------------#    
+- stage: Deploy
+  jobs:
+  #--------------------------------------------#  
+  # Deploy FakeRestAPI Web App
+  - deployment: FakeRestAPI
+    pool:
+      vmImage: 'Ubuntu-18.04'      
+    environment: '$(environmentName)' 
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Deploy Azure Web App'
+            inputs:
+              azureSubscription: '$(azureServiceConnectionId)'
+              appName: '$(appName)'           
+              appType: webApp
+              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
+          #--------------------------------------------#    
+          # Run JMeter test suite against the App Service
+          - task: CmdLine@2
+            inputs:
+              script: |
+                sudo apt-get update
+                sudo apt-get install -y openjdk-8-jdk
+                wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.5.tgz"
+                tar -xzf apache-jmeter-5.5.tgz
+                unzip -o $(Build.BuildId)-perftests.zip
+                ./apache-jmeter-5.5/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
+                cat jmeter.log                                                                         
+              workingDirectory: $(Pipeline.Workspace)/drop-perftests       
+              displayName: 'Run JMeter Tests'
 
-#   #--------------------------------------------#  
-#   # Selenium | Functional UI Tests
-#   # ToDo: 
-#   - deployment: VMDeploy
-#     displayName: Selenium Tests
-#     environment:
-#       name: '$(environmentName)'
-#       resourceType: VirtualMachine
-#       tags: selenium
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - download: current
-#             artifact: drop-ui-tests   
+  #--------------------------------------------#  
+  # Selenium | Functional UI Tests
+  # ToDo: 
+  - deployment: VMDeploy
+    displayName: Selenium Tests
+    environment:
+      name: '$(environmentName)'
+      resourceType: VirtualMachine
+      tags: selenium
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop-ui-tests   
             
-#           - task: Bash@3
-#             inputs:
-#               targetType: 'inline'
-#               script: |           
-#                 #! /bin/bash
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |           
+                #! /bin/bash
                 
-#                 sudo apt-get upgrade -y
-#                 sudo apt-get install python3-pip -y
-#                 sudo apt-get install unzip -y
-#                 sudo apt-get install -y chromium-browser
-#                 pip3 install selenium
-#                 cd ~/
-#                 DIR=/home/testuser/app
-#                 if [ ! -d "$DIR" ]; then
-#                     mkdir app
-#                 fi
-#                 mv /home/testuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
-#                 cd app
-#                 unzip -o $(Build.BuildId)-uitests.zip
-#                 FILE=/home/testuser/app/chromedriver_linux64.zip
-#                 if [ ! -f "$FILE" ]; then
-#                     LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-#                     wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-#                     unzip -o chromedriver_linux64.zip
-#                     sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
-#                 fi
-#                 export PATH=$PATH:/home/testuser/app
-#                 echo "Starting Selenium Tests"
-#                 python3 add_remove_from_cart.py >> selenium.log
-#                 echo "Completed Selenium Tests. Check selenium.log for results."
+                sudo apt-get upgrade -y
+                sudo apt-get install python3-pip -y
+                sudo apt-get install unzip -y
+                sudo apt-get install -y chromium-browser
+                pip3 install selenium
+                cd ~/
+                DIR=/home/testuser/app
+                if [ ! -d "$DIR" ]; then
+                    mkdir app
+                fi
+                mv /home/testuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
+                cd app
+                unzip -o $(Build.BuildId)-uitests.zip
+                FILE=/home/testuser/app/chromedriver_linux64.zip
+                if [ ! -f "$FILE" ]; then
+                    LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+                    wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
+                    unzip -o chromedriver_linux64.zip
+                    sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
+                fi
+                export PATH=$PATH:/home/testuser/app
+                echo "Starting Selenium Tests"
+                python3 add_remove_from_cart.py >> selenium.log
+                echo "Completed Selenium Tests. Check selenium.log for results."
