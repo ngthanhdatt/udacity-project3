@@ -12,13 +12,13 @@ pool: myAgentPool
 
 variables:
   python.version: '3.7.6'
-  azureSubscription: '82c40d1f-be09-4c9e-9295-ae70e625b7b5'
+  azureSubscription: 'c761712a-772e-4832-b4d5-73b3a4b12e0b'
   appName: 'udacity-datnt172-appservice'
-  azureServiceConnectionId: 'myserviceconnection'
+  azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
-  environmentName: 'test-linux'
+  environmentName: 'myEnv'
  
 
 stages:
@@ -47,7 +47,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate820320303'
+        backendAzureRmStorageAccountName: 'tfstate164261551'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -197,7 +197,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: '$(azureServiceConnectionId)'
+              azureSubscription: '$(azureSubscription)'
               appName: '$(appName)'           
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
