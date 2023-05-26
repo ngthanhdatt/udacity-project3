@@ -38,13 +38,13 @@ module "nsg-test" {
   subnet_id        = "${module.network.subnet_id_test}"
   address_prefix_test = "${var.address_prefix_test}"
 }
-module "appservice" {
-  source           = "../../modules/appservice"
-  location         = "${var.location}"
-  application_type = "${var.application_type}"
-  resource_type    = "AppService"
-  resource_group   = "${var.resource_group}"
-}
+# module "appservice" {
+#   source           = "../../modules/appservice"
+#   location         = "${var.location}"
+#   application_type = "${var.application_type}"
+#   resource_type    = "AppService"
+#   resource_group   = "${var.resource_group}"
+# }
 module "publicip" {
   source           = "../../modules/publicip"
   location         = "${var.location}"
