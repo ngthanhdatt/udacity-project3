@@ -188,10 +188,12 @@ stages:
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
     pool:
-      vmImage: 'Ubuntu-18.04'      
+      vmImage: '/subscriptions/c761712a-772e-4832-b4d5-73b3a4b12e0b/resourceGroups/Azuredevops/providers/Microsoft.Compute/galleries/myVMGallery/images/myVMdefinition/versions/1.0.0'      
     environment: '$(environmentName)' 
     strategy:
       runOnce:
+      # rolling:
+        # maxParallel: 2
         deploy:
           steps:
           - task: AzureWebApp@1
