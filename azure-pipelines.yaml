@@ -192,7 +192,6 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      tags: web
     strategy:
       runOnce:
       # rolling:
@@ -205,7 +204,7 @@ stages:
               azureSubscription: '$(azureServiceConnectionId)'
               appName: '$(appName)'           
               appType: webApp
-              package: $(Pipeline.Workspace)/fake-rest-api/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/fake-rest-api/$(Build.BuildId)-fakerestapi.zip   
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -229,7 +228,6 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      tags: selenium
     strategy:
       runOnce:
         deploy:
