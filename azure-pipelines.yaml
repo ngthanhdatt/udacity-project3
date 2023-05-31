@@ -13,7 +13,7 @@ pool: myAgentPool
 variables:
   python.version: '3.7.6'
   azureSubscription: 'd6c8f7f9-b69d-4549-b504-b520b7a8ed88'
-  appName: 'udacity-datnt172-appservice'
+  appName: 'myApplication-AppService-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -187,8 +187,8 @@ stages:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
-    # pool:
-    #   vmImage: 'myEnv-image-20230531145217'      
+    pool:
+      vmImage: 'Ubuntu-18.04'      
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
@@ -205,7 +205,7 @@ stages:
               azureSubscription: '$(azureServiceConnectionId)'
               appName: '$(appName)'           
               appType: webApp
-              package: $(Pipeline.Workspace)/jmeter-test/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/fake-rest-api/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
