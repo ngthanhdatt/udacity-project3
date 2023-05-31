@@ -188,7 +188,7 @@ stages:
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
     pool:
-      vmImage: 'Ubuntu-18.04'      
+      vmImage: 'myEnvLinux-image-20230531160907'      
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
