@@ -12,7 +12,7 @@ pool: myAgentPool
 
 variables:
   python.version: '3.7.6'
-  azureSubscription: 'c761712a-772e-4832-b4d5-73b3a4b12e0b'
+  azureSubscription: 'd6c8f7f9-b69d-4549-b504-b520b7a8ed88'
   appName: 'udacity-datnt172-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
@@ -47,7 +47,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate164261551'
+        backendAzureRmStorageAccountName: 'tfstate2644217843'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
