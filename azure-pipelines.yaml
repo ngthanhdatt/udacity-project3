@@ -147,7 +147,7 @@ stages:
     # Selenium Test Suite - Publish the package  
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip   # Same as the archiveFile artifact above. 
       displayName: 'Upload Selenium Package'
-      artifact: drop-uitests
+      artifact: selenium-test
 
     #--------------------------------------------#    
     # FakeRestAPI - Archive
@@ -162,7 +162,7 @@ stages:
     # FakeRestAPI - Publish
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
       displayName: 'Upload FakeRestAPI Package'
-      artifact: drop-fakerestapi
+      artifact: fake-rest-api
 
     #--------------------------------------------#  
     # JMeter (Performance) Test Suite - Archive
@@ -177,7 +177,7 @@ stages:
     # JMeter Test Suite - Publish    
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip
       displayName: 'Upload JMeter Package'
-      artifact: drop-perftests
+      artifact: jmeter-test
 
 #--------------------------------------------#  
 # DEPLOYMENT STAGE
@@ -199,10 +199,10 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: '$(azureServiceConnectionId)'
+              azureSubscription: '$(azureSubscription)'
               appName: '$(appName)'           
               appType: webApp
-              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/jmeter-test/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -215,7 +215,7 @@ stages:
                 unzip -o $(Build.BuildId)-perftests.zip
                 ./apache-jmeter-5.5/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
                 cat jmeter.log                                                                         
-              workingDirectory: $(Pipeline.Workspace)/drop-perftests       
+              workingDirectory: $(Pipeline.Workspace)/jmeter-test      
               displayName: 'Run JMeter Tests'
 
   #--------------------------------------------#  
@@ -232,7 +232,7 @@ stages:
         deploy:
           steps:
           - download: current
-            artifact: drop-ui-tests   
+            artifact: selenium-test   
             
           - task: Bash@3
             inputs:
@@ -250,7 +250,7 @@ stages:
                 if [ ! -d "$DIR" ]; then
                     mkdir app
                 fi
-                mv /home/testuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
+                mv /home/testuser/azagent/_work/1/selenium-test/$(Build.BuildId)-uitests.zip app
                 cd app
                 unzip -o $(Build.BuildId)-uitests.zip
                 FILE=/home/testuser/app/chromedriver_linux64.zip
@@ -262,5 +262,5 @@ stages:
                 fi
                 export PATH=$PATH:/home/testuser/app
                 echo "Starting Selenium Tests"
-                python3 add_remove_from_cart.py >> selenium.log
+                python3 login.py >> selenium.log
                 echo "Completed Selenium Tests. Check selenium.log for results."

@@ -50,10 +50,10 @@ def remove_items(driver):
     print('Finshed testing removing items from the cart')
 
 def tests():
-    # options = ChromeOptions()
-    # options.add_argument("--headless")
-    # driver = webdriver.Chrome(options=options)
-    driver = webdriver.Chrome()
+    options = ChromeOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
+    # driver = webdriver.Chrome()
     login(driver, "standard_user", "secret_sauce")
     add_items(driver)
     remove_items(driver)
