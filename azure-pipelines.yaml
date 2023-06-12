@@ -208,7 +208,8 @@ stages:
                 wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.5.tgz"
                 tar -xf apache-jmeter-5.5.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
-                ./apache-jmeter-5.5/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f  
+                ./apache-jmeter-5.5/bin/jmeter -n -t stress-test.jmx -j jmeter.log -f  
+                ./apache-jmeter-5.5/bin/jmeter -n -t endurance-test.jmx -j jmeter.log -f 
                 cat jmeter.log                                                                       
               workingDirectory: $(Pipeline.Workspace)/jmeter-test      
               displayName: 'Run JMeter Tests'
