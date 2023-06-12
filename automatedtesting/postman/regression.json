@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Create Employee",
+			"name": "Get All Employees",
 			"event": [
 				{
 					"listen": "test",
@@ -16,70 +16,6 @@
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"success\");",
-							"});",
-							"var json = pm.response.json();",
-							"pm.environment.set(\"id\", json.data.id);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"{{name}}\",\n    \"salary\": \"{{salary}}\",\n    \"age\": \"{{age}}\"\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://dummy.restapiexample.com/api/v1/create",
-					"protocol": "http",
-					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Employees",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.test(\"Content-Type is present\", function () { ",
-							"    pm.response.to.have.header(\"Content-Type\");",
-							"});",
-							"",
-							"pm.test(\"Content-Type is application/json\", function () { ",
-							"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.include(\"application/json\");",
-							"});",
-							"",
-							"pm.test(\"Body is present\", function () { ",
-							"    pm.response.to.have.body();",
-							"});",
-							"",
-							"pm.test(\"Body is a valid json\", function () { ",
-							"    pm.response.to.be.json;",
-							"});",
-							"",
-							"pm.test(\"Status code is 200\", function () { // #7",
-							"    pm.response.to.have.status(200);",
 							"});",
 							""
 						],

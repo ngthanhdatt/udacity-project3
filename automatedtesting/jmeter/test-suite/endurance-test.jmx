@@ -118,7 +118,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
-            <stringProp name="Argument.value">udacity-datnt172-appservice.azurewebsites.net</stringProp>
+            <stringProp name="Argument.value">myApplication-AppService-appservice.azurewebsites.net</stringProp>
             <stringProp name="Argument.desc">azure web app host name</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>

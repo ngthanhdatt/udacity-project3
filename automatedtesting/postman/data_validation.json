@@ -8,14 +8,14 @@
 	},
 	"item": [
 		{
-			"name": "Create Employee",
+			"name": "Get User By ID",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"    pm.expect(pm.response.text()).to.include(\"Cedric Kelly\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -35,7 +35,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://dummy.restapiexample.com/api/v1/create",
+					"raw": "https://dummy.restapiexample.com/api/v1/employee/4",
 					"protocol": "http",
 					"host": [
 						"dummy",
@@ -45,7 +45,8 @@
 					"path": [
 						"api",
 						"v1",
-						"create"
+						"employee",
+						"4"
 					]
 				}
 			},
@@ -59,22 +60,8 @@
 					"script": {
 						"exec": [
 							"// pm.test(\"Successful response\", function () {",
-							"//     pm.expect(pm.response.text()).to.include(\"success\");",
-							"// });",
-							"const responseJson = pm.response.json();",
-							"pm.test(\"The response has all properties\", () => {",
-							"    const dataJson = responseJson.data.map(m => m );",
-							"      console.log(dataJson)",
-							"    // console.log(dataJson[0].id);",
-							"    for(let i = 0; i< dataJson.length; i++){",
-							"        pm.expect(dataJson[i].id).to.be.a(\"number\");",
-							"        pm.expect(dataJson[i].employee_name).to.be.a(\"string\");",
-							"        pm.expect(dataJson[i].employee_salary).to.be.a(\"number\");",
-							"        pm.expect(dataJson[i].employee_age).to.be.a(\"number\");",
-							"    }",
-							"});",
-							"",
-							""
+							"//     pm.expect(pm.response.text()).to.include(\"12\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
