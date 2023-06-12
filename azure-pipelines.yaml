@@ -11,7 +11,7 @@ pool: myAgentPool
 variables:
   python.version: '3.7.6'
   azureSubscription: 'd6c8f7f9-b69d-4549-b504-b520b7a8ed88'
-  appName: 'udacity-datnt172-appservice'
+  appName: 'myApplication-AppService-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
