@@ -10,7 +10,7 @@ pool: myAgentPool
 
 variables:
   python.version: '3.7.6'
-  azureSubscription: '456cc604-544c-45f8-99d0-c1b73aeec440'
+  azureSubscription: 'd6c8f7f9-b69d-4549-b504-b520b7a8ed88'
   appName: 'myApplication-AppService-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
@@ -94,7 +94,7 @@ stages:
 #--------------------Testttttttt------------------------#    
 
     # Postman - Install Newman    
-    # ToDo: Update the command and verify the working directory
+
     - task: CmdLine@2
       displayName: Install Newman
       inputs:
@@ -107,7 +107,6 @@ stages:
         workingDirectory: $(System.DefaultWorkingDirectory)
 
     # Postman Data Validation Test Suite    
-    # ToDo: Verify the working directory
     - task: CmdLine@2
       displayName: Run Data Validation Tests
       continueOnError: true
@@ -141,7 +140,7 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip'
     # Selenium Test Suite - Publish the package  
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip   # Same as the archiveFile artifact above. 
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip  
       displayName: 'Upload Selenium Package'
       artifact: selenium-test
 
@@ -196,7 +195,7 @@ stages:
               azureSubscription: '$(azureServiceConnectionId)'
               appName: '$(appName)'           
               appType: webApp
-              package: $(Pipeline.Workspace)/fake-rest-api/$(Build.BuildId)-fake-rest-api.zip 
+              package: $(Pipeline.Workspace)/fake-rest-api/$(Build.BuildId)-fake-rest-api.zip    
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -219,7 +218,7 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      # tags: selenium
+      tags: selenium
     strategy:
       runOnce:
         deploy:
