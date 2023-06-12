@@ -182,9 +182,11 @@ stages:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
-    pool:
-      vmImage: 'Ubuntu-18.04'          
-    environment: '$(environmentName)' 
+    # pool:
+    #   vmImage: 'Ubuntu-18.04'          
+    environment: 
+      name: '$(environmentName)' 
+      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
@@ -215,9 +217,9 @@ stages:
   # ToDo: 
   - deployment: VMDeploy
     displayName: Selenium Tests
-    pool: myAgentPool
     environment:
       name: '$(environmentName)'
+      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
