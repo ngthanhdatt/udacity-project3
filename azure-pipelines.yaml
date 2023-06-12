@@ -11,7 +11,7 @@ pool: myAgentPool
 variables:
   python.version: '3.7.6'
   azureSubscription: 'd6c8f7f9-b69d-4549-b504-b520b7a8ed88'
-  appName: 'myApplication-AppService-appservice'
+  appName: 'udacity-datnt172-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -182,8 +182,8 @@ stages:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
-    # pool:
-    #   vmImage: 'myEnv-image-20230531145217'      
+    pool: myAgentPool
+      # vmImage: 'myEnv-image-20230531145217'      
     environment: '$(environmentName)' 
     strategy:
       runOnce:
@@ -215,10 +215,9 @@ stages:
   # ToDo: 
   - deployment: VMDeploy
     displayName: Selenium Tests
+    pool: myAgentPool
     environment:
       name: '$(environmentName)'
-      resourceType: VirtualMachine
-      tags: selenium
     strategy:
       runOnce:
         deploy:
