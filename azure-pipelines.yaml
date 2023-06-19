@@ -111,7 +111,7 @@ stages:
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run ./data_validation.json -r junit,cli -e ./environment.json --reporter-junit-export ./Result-Validation.xml'
+        script: 'newman run ./validation.json -r junit,cli -e ./environment.json --reporter-junit-export ./Result-Validation.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman Regression Test Suite    
     - task: CmdLine@2
