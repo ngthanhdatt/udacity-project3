@@ -1,14 +1,12 @@
 {
 	"info": {
 		"_postman_id": "0a885814-4123-4c05-bc1c-bc28835f29d0",
-		"name": "Starter APIs",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27318323",
-		"_collection_link": "https://solar-crescent-704690.postman.co/workspace/Team-Workspace~018a747a-fbbc-46f1-846e-aefa08ccf3a4/collection/27318323-0a885814-4123-4c05-bc1c-bc28835f29d0?action=share&creator=27318323&source=collection_link"
+		"name": "Regression",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get All Employees",
+			"name": "Get All Users",
 			"event": [
 				{
 					"listen": "test",
@@ -27,8 +25,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://dummy.restapiexample.com/api/v1/employees",
-					"protocol": "http",
+					"raw": "https://dummy.restapiexample.com/api/v1/employees",
+					"protocol": "https",
 					"host": [
 						"dummy",
 						"restapiexample",
@@ -38,6 +36,53 @@
 						"api",
 						"v1",
 						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful response\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});",
+							"",
+							"var json = pm.response.json();",
+							"",
+							"pm.environment.set(\"id\", json.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"job\": \"{{job}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
 					]
 				}
 			},

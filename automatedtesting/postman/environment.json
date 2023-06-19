@@ -9,16 +9,28 @@
 			"enabled": true
 		},
 		{
+			"key": "age",
+			"value": "24",
+			"type": "default",
+			"enabled": true
+		},
+		{
 			"key": "salary",
 			"value": "5000",
 			"type": "default",
 			"enabled": true
 		},
 		{
-			"key": "age",
-			"value": "20",
+			"key": "id",
+			"value": "10",
 			"type": "default",
-			"enabled": true
+			"enabled": true			
+		},
+		{
+			"key": "job",
+			"value": "devops",
+			"type": "default",
+			"enabled": true			
 		}
 	],
 	"_postman_variable_scope": "environment",
