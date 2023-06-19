@@ -126,8 +126,8 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-        mergeTestResults: true
-        testRunTitle: 'Postman Testing Report'
+        # mergeTestResults: true
+        # testRunTitle: 'Postman Testing Report'
 
     #--------------------------------------------#
     # Selenium (UI) Test Suite - Archive the package  
