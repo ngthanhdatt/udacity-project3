@@ -10,7 +10,7 @@ pool: myAgentPool
 
 variables:
   python.version: '3.7.6'
-  azureSubscription: 'd06323f0-ffb0-484c-9e89-0ca5e1d58412'
+  azureSubscription: '82c40d1f-be09-4c9e-9295-ae70e625b7b5'
   appName: 'myApplication-AppService-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
@@ -45,7 +45,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate3254817078'
+        backendAzureRmStorageAccountName: 'tfstate197446643'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -140,7 +140,7 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip'
     # Selenium Test Suite - Publish the package  
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip  
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip'  
       displayName: 'Upload Selenium Package'
       artifact: selenium-test
 
@@ -153,11 +153,11 @@ stages:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/fakerestapi'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fake-rest-api.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
     # FakeRestAPI - Publish
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fake-rest-api.zip
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
       displayName: 'Upload FakeRestAPI Package'
-      artifact: fake-rest-api
+      artifact: fakerestapi-tests
 
     #--------------------------------------------#  
     # JMeter (Performance) Test Suite - Archive
@@ -165,12 +165,12 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Archive PerformanceTestSuite'
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/test-suite'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
     # JMeter Test Suite - Publish    
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
       displayName: 'Upload JMeter Package'
       artifact: jmeter-test
 
@@ -197,7 +197,7 @@ stages:
               azureSubscription: '$(azureServiceConnectionId)'
               appName: '$(appName)'           
               appType: webApp
-              package: $(Pipeline.Workspace)/fake-rest-api/$(Build.BuildId)-fake-rest-api.zip    
+              package: $(Pipeline.Workspace)/fakerestapi-tests/$(Build.BuildId)-fakerestapi.zip    
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -205,13 +205,15 @@ stages:
               script: |
                 sudo apt-get update
                 sudo apt-get install -y openjdk-8-jdk
-                wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.5.tgz"
-                tar -xf apache-jmeter-5.5.tgz
-                unzip -o $(Build.BuildId)-perftests.zip
+                curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
+                tar -xvf apache-jmeter-5.5.tgz
+                echo "Unzip Folder ..."
+                cd $(Pipeline.Workspace)/performance-tests/
+                unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
                 ./apache-jmeter-5.5/bin/jmeter -n -t stress-test.jmx -j jmeter.log -f  
                 ./apache-jmeter-5.5/bin/jmeter -n -t endurance-test.jmx -j jmeter.log -f 
                 cat jmeter.log                                                                       
-              workingDirectory: $(Pipeline.Workspace)/jmeter-test      
+              workingDirectory: $(Pipeline.Workspace)/jmeter-test/      
               displayName: 'Run JMeter Tests'
 
   #--------------------------------------------#  
@@ -219,15 +221,18 @@ stages:
   # ToDo: 
   - deployment: VMDeploy
     displayName: Selenium Tests
+    dependsOn: FakeRestAPI
+    condition: succeeded()
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
+      tags: selenium
     strategy:
       runOnce:
         deploy:
           steps:
           - download: current
-            artifact: selenium-test   
+            artifact: selenium-test 
             
           - task: Bash@3
             inputs:
@@ -238,24 +243,20 @@ stages:
                 sudo apt-get upgrade -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
+                sudo add-apt-repository universe
+                sudo pip3 install selenium
+
                 sudo apt-get install -y chromium-browser
-                pip3 install selenium
-                cd ~/
-                DIR=/home/testuser/app
-                if [ ! -d "$DIR" ]; then
-                    mkdir app
-                fi
-                mv /home/testuser/azagent/_work/1/selenium-test/$(Build.BuildId)-uitests.zip app
-                cd app
-                unzip -o $(Build.BuildId)-uitests.zip
-                FILE=/home/testuser/app/chromedriver_linux64.zip
-                if [ ! -f "$FILE" ]; then
-                    LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-                    wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-                    unzip -o chromedriver_linux64.zip
-                    sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
-                fi
-                export PATH=$PATH:/home/testuser/app
-                echo "Starting Selenium Tests"
-                python3 login.py >> selenium.log
-                echo "Completed Selenium Tests. Check selenium.log for results."
+                wget https://chromedriver.storage.googleapis.com/112.0.5615.49/chromedriver_linux64.zip 
+                unzip chromedriver_linux64.zip -d chromedrv
+                sudo cp chromedrv/chromedriver /usr/bin
+
+                export PATH=$PATH:/usr/bin/chromedriver
+
+                cd $(Pipeline.Workspace)/drop-uitests
+                unzip $(Build.BuildId)-uitests.zip -d $(Build.BuildId)-uitests
+
+                sudo python3 $(Build.BuildId)-uitests/login.py >> $(Build.BuildId)-uitests/seleniumresult.log 
+
+                sudo cat $(Build.BuildId)-uitests/seleniumresult.log
+                sudo cp $(Build.BuildId)-uitests/seleniumresult.log /var/log/
