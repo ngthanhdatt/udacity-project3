@@ -253,7 +253,7 @@ stages:
 
                 export PATH=$PATH:/usr/bin/chromedriver
 
-                cd $(Pipeline.Workspace)/drop-uitests
+                cd $(Pipeline.Workspace)/selenium-test
                 unzip $(Build.BuildId)-uitests.zip -d $(Build.BuildId)-uitests
 
                 sudo python3 $(Build.BuildId)-uitests/login.py >> $(Build.BuildId)-uitests/seleniumresult.log 
