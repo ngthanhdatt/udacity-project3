@@ -182,8 +182,8 @@ stages:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
-    pool:
-      vmImage: 'myApplication-VM-vm-image-20230620160348'          
+    # pool:
+    #   vmImage: 'myApplication-VM-vm-image-20230620160348'          
     environment: 
       name: '$(environmentName)' 
       resourceType: VirtualMachine
