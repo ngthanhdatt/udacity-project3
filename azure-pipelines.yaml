@@ -10,8 +10,6 @@ pool: myAgentPool
 
 variables:
   python.version: '3.7.6'
-  azureSubscription: '82c40d1f-be09-4c9e-9295-ae70e625b7b5'
-  appName: 'myApplication-AppService-appservice'
   azureServiceConnectionId: 'myServiceConnection'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -45,7 +43,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate197446643'
+        backendAzureRmStorageAccountName: 'tfstate1988632432'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -98,13 +96,15 @@ stages:
     - task: CmdLine@2
       displayName: Install Newman
       inputs:
-        script: 'sudo npm install -g newman'
+        script: |
+          sudo apt install npm
+          sudo npm install -g newman
         workingDirectory: $(System.DefaultWorkingDirectory)
-    - task: CmdLine@2
-      displayName: Install Newman Reporter JUnit
-      inputs:
-        script: 'sudo npm install -g newman-reporter-junitfullreport'
-        workingDirectory: $(System.DefaultWorkingDirectory)
+    # - task: CmdLine@2
+    #   displayName: Install Newman Reporter JUnit
+    #   inputs:
+    #     script: 'sudo npm install -g newman-reporter-junitfullreport'
+    #     workingDirectory: $(System.DefaultWorkingDirectory)
 
     # Postman Data Validation Test Suite    
     - task: CmdLine@2
@@ -126,8 +126,8 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-        # mergeTestResults: true
-        # testRunTitle: 'Postman Testing Report'
+        mergeTestResults: true
+        testRunTitle: 'Postman Testing Report'
 
     #--------------------------------------------#
     # Selenium (UI) Test Suite - Archive the package  
@@ -195,7 +195,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(azureServiceConnectionId)'
-              appName: '$(appName)'           
+              appName: 'myApplication-AppService-appservice'          
               appType: webApp
               package: $(Pipeline.Workspace)/fakerestapi-tests/$(Build.BuildId)-fakerestapi.zip    
           #--------------------------------------------#    
@@ -204,14 +204,15 @@ stages:
             inputs:
               script: |
                 sudo apt-get update
-                sudo apt-get install -y openjdk-8-jdk
+                sudo apt install default-jre -y
+                sudo apt install default-jdk -y
                 curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
                 tar -xvf apache-jmeter-5.5.tgz
-                echo "Unzip Folder ..."
-                cd $(Pipeline.Workspace)/performance-tests/
+                # Unzip Folder
+                cd $(Pipeline.Workspace)/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
-                ./apache-jmeter-5.5/bin/jmeter -n -t stress-test.jmx -j jmeter.log -f  
-                ./apache-jmeter-5.5/bin/jmeter -n -t endurance-test.jmx -j jmeter.log -f 
+                apache-jmeter-5.5/bin/jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
+                apache-jmeter-5.5/bin/jmeter -n -t endurance-test.jmx -l endurance-result.csv -e -f -o endurance-report.html -j endurance-test-suite.log
                 cat jmeter.log                                                                       
               workingDirectory: $(Pipeline.Workspace)/jmeter-test/      
               displayName: 'Run JMeter Tests'
@@ -243,20 +244,19 @@ stages:
                 sudo apt-get upgrade -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
-                sudo add-apt-repository universe
+                sudo apt-get install -y chromium-browser
                 sudo pip3 install selenium
-
                 sudo apt-get install -y chromium-browser
                 wget https://chromedriver.storage.googleapis.com/112.0.5615.49/chromedriver_linux64.zip 
                 unzip chromedriver_linux64.zip -d chromedrv
                 sudo cp chromedrv/chromedriver /usr/bin
 
                 export PATH=$PATH:/usr/bin/chromedriver
-
+                # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                 cd $(Pipeline.Workspace)/selenium-test
                 unzip $(Build.BuildId)-uitests.zip -d $(Build.BuildId)-uitests
 
-                sudo python3 $(Build.BuildId)-uitests/login.py >> $(Build.BuildId)-uitests/seleniumresult.log 
+                sudo python3 $(Build.BuildId)-uitests/login.py >> $(Build.BuildId)-uitests/selenium_result.log 
 
-                sudo cat $(Build.BuildId)-uitests/seleniumresult.log
-                sudo cp $(Build.BuildId)-uitests/seleniumresult.log /var/log/
+                sudo cat $(Build.BuildId)-uitests/selenium_result.log
+                sudo cp $(Build.BuildId)-uitests/selenium_result.log /var/log/

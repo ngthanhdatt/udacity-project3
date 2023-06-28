@@ -2,6 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
+import logging
 
 URL_LOGIN = 'https://www.saucedemo.com/'
 URL_INVENTORY = 'https://www.saucedemo.com/inventory.html'
@@ -50,8 +51,9 @@ def remove_items(driver):
     print('Finshed testing removing items from the cart')
 
 def tests():
-    options = ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--headless") 
+    options.add_argument('--remote-debugging-port=9999')
     driver = webdriver.Chrome(options=options)
     # driver = webdriver.Chrome()
     login(driver, "standard_user", "secret_sauce")
