@@ -207,12 +207,14 @@ stages:
                 sudo apt install default-jdk -y
                 curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
                 tar -xvf apache-jmeter-5.5.tgz
+                sudo ln -s $(Pipeline.Workspace)/performance-tests/apache-jmeter-5.5/bin/jmeter /usr/bin/jmeter
+                jmeter --version
                 # Unzip Folder
                 cd $(Pipeline.Workspace)/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
                 cd $(Build.BuildId)-perftests
-                ./apache-jmeter-5.5/bin/jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
-                ./apache-jmeter-5.5/bin/jmeter -n -t endurance-test.jmx -l endurance-result.csv -e -f -o endurance-report.html -j endurance-test-suite.log
+                jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
+                jmeter -n -t endurance-test.jmx -l endurance-result.csv -e -f -o endurance-report.html -j endurance-test-suite.log
                 cat stress-test-suite.log 
                 cat endurance-test-suite.log                                                                    
               workingDirectory: $(Pipeline.Workspace)/jmeter-test/      
