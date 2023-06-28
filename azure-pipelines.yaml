@@ -182,8 +182,7 @@ don't have permission to access this resource.
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
-    pool:
-      vmImage: myAgentPool        
+    pool: myAgentPool        
     environment: 
       name: '$(environmentName)' 
       resourceType: VirtualMachine
