@@ -173,7 +173,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
       displayName: 'Upload JMeter Package'
       artifact: jmeter-test
-don't have permission to access this resource.
+      
 #--------------------------------------------#  
 # DEPLOYMENT STAGE
 #--------------------------------------------#    
