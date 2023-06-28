@@ -207,9 +207,9 @@ stages:
                 sudo apt install default-jdk -y
                 curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
                 tar -xvf apache-jmeter-5.5.tgz
-                # sudo mv $(Pipeline.Workspace)/jmeter-test/apache-jmeter-5.5 /opt
-                # echo 'export PATH="$PATH:/opt/apache-jmeter-5.5/bin"' >> ~/.bashrc
-                # source ~/.bashrc
+                sudo mv $(Pipeline.Workspace)/jmeter-test/apache-jmeter-5.5 /opt
+                echo 'export PATH="$PATH:/opt/apache-jmeter-5.5/bin"' >> ~/.bashrc
+                source ~/.bashrc
                 # Unzip Folder
                 cd $(Pipeline.Workspace)/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
@@ -231,7 +231,6 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      tags: selenium
     strategy:
       runOnce:
         deploy:
