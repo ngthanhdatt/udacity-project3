@@ -173,7 +173,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
       displayName: 'Upload JMeter Package'
       artifact: jmeter-test
-
+don't have permission to access this resource.
 #--------------------------------------------#  
 # DEPLOYMENT STAGE
 #--------------------------------------------#    
@@ -182,8 +182,8 @@ stages:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
   - deployment: FakeRestAPI
-    # pool:
-    #   vmImage: 'myApplication-VM-vm-image-20230620160348'          
+    pool:
+      vmImage: myAgentPool        
     environment: 
       name: '$(environmentName)' 
       resourceType: VirtualMachine
@@ -223,7 +223,6 @@ stages:
   - deployment: VMDeploy
     displayName: Selenium Tests
     dependsOn: FakeRestAPI
-    condition: succeeded()
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
