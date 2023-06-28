@@ -210,6 +210,7 @@ stages:
                 # Unzip Folder
                 cd $(Pipeline.Workspace)/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
+                cd $(Build.BuildId)-perftests
                 apache-jmeter-5.5/bin/jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
                 apache-jmeter-5.5/bin/jmeter -n -t endurance-test.jmx -l endurance-result.csv -e -f -o endurance-report.html -j endurance-test-suite.log
                 cat jmeter.log                                                                       
