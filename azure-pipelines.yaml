@@ -233,11 +233,11 @@ stages:
 
                 # Move Jmeter to OPT and Put Jmeter in PATH variable
                 cd ../../
-                cp -r apache-jmeter-5.5 /opt/
+                sudo cp -r apache-jmeter-5.5 /opt/
                 nano .profile
-                JMETER_HOME="/opt/apache-jmeter-5.5"
-                PATH="$JMETER_HOME/bin:$PATH"
-                source ~/.profile
+                sudo JMETER_HOME="/opt/apache-jmeter-5.5"
+                sudo PATH="$JMETER_HOME/bin:$PATH"
+                sudo source ~/.profile
                 echo $PATH
 
                 # check Version
