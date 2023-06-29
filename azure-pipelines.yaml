@@ -208,8 +208,8 @@ stages:
                 sudo apt install -y default-jre
                 sudo apt install -y default-jdk
                 sudo apt-get -y install zip
-                cd $(Pipeline.Workspace)/jmeter-test/
-                
+                # cd /home/devopsagent/azagent/_work/1/jmeter-test/
+
                 # download Jmeter 
                 curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
                 tar -xvf apache-jmeter-5.5.tgz
@@ -242,7 +242,7 @@ stages:
                 jmeter --version
 
                 # Unzip Folder
-                cd $(Pipeline.Workspace)/jmeter-test/
+                cd /home/devopsagent/azagent/_work/1/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
                 cd $(Build.BuildId)-perftests
                 jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
