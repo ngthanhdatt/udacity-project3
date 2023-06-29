@@ -235,9 +235,9 @@ stages:
                 cd ../../
                 sudo cp -r apache-jmeter-5.5 /opt/
                 nano .profile
-                sudo JMETER_HOME="/opt/apache-jmeter-5.5"
-                sudo PATH="$JMETER_HOME/bin:$PATH"
-                sudo source ~/.profile
+                JMETER_HOME="/opt/apache-jmeter-5.5"
+                PATH="$JMETER_HOME/bin:$PATH"
+                source ~/.profile
                 echo $PATH
 
                 # check Version
