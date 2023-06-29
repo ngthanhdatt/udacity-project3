@@ -126,7 +126,7 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-        # mergeTestResults: true
+        mergeTestResults: true
         testRunTitle: 'Postman Testing Report'
 
     #--------------------------------------------#
@@ -276,22 +276,19 @@ stages:
               script: |           
                 #! /bin/bash
                 
+                cd $(Pipeline.Workspace)/selenium-test
                 sudo apt-get upgrade -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
                 sudo pip3 install selenium
-                sudo apt-get install -y chromium-browser
+                unzip $(Build.BuildId)-uitests.zip
                 wget https://chromedriver.storage.googleapis.com/112.0.5615.49/chromedriver_linux64.zip 
-                unzip chromedriver_linux64.zip -d chromedrv
-                sudo cp chromedrv/chromedriver /usr/bin
-
+                unzip -o chromedriver_linux64.zip
+                sudo ln -s $PWD/chromedriver /usr/bin/chromedriver
                 export PATH=$PATH:/usr/bin/chromedriver
-                # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
-                cd $(Pipeline.Workspace)/selenium-test
-                unzip $(Build.BuildId)-uitests.zip -d $(Build.BuildId)-uitests
 
-                sudo python3 $(Build.BuildId)-uitests/login.py >> $(Build.BuildId)-uitests/selenium_result.log 
+                sudo python3 login.py >> selenium_result.log 
 
-                sudo cat $(Build.BuildId)-uitests/selenium_result.log
-                sudo cp $(Build.BuildId)-uitests/selenium_result.log /var/log/
+                sudo cat selenium_result.log
+                sudo cp selenium_result.log /var/log/
