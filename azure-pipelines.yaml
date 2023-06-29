@@ -111,14 +111,14 @@ stages:
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run ./validation.json -r junit,cli -e ./environment.json --reporter-junit-export ./Result-Validation.xml'
+        script: 'newman run ./validation.json -r junit,cli -e ./environment.json --reporter-junit-export ./Validation-result.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman Regression Test Suite    
     - task: CmdLine@2
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run ./regression.json -r junit,cli -e ./environment.json --reporter-junit-export ./Result-Regression.xml'
+        script: 'newman run ./regression.json -r junit,cli -e ./environment.json --reporter-junit-export ./Regression-result.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman - Publish Results 
     - task: PublishTestResults@2
@@ -126,7 +126,7 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-        mergeTestResults: true
+        # mergeTestResults: true
         testRunTitle: 'Postman Testing Report'
 
     #--------------------------------------------#

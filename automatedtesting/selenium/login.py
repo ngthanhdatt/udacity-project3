@@ -51,6 +51,7 @@ def remove_items(driver):
     print('Finshed testing removing items from the cart')
 
 def tests():
+    options = ChromeOptions()
     options.add_argument("--no-sandbox")
     options.add_argument("--headless") 
     options.add_argument('--remote-debugging-port=9999')
