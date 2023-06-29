@@ -200,6 +200,7 @@ stages:
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
+            displayName: 'Run jmeter test'
             inputs:
               script: |
                 sudo apt-get update
@@ -208,7 +209,6 @@ stages:
                 sudo apt install -y default-jre
                 sudo apt install -y default-jdk
                 sudo apt-get -y install zip
-                # cd /home/devopsagent/azagent/_work/1/jmeter-test/
 
                 # download Jmeter 
                 curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
@@ -223,14 +223,16 @@ stages:
                 curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
 
                 # Download plugin
-                cd .. 
+                cd ../
                 java  -jar cmdrunner-2.2.1.jar --tool org.jmeterplugins.repository.PluginManagerCMD install-all-except jpgc-hadoop,jpgc-oauth,ulp-jmeter-autocorrelator-plugin,ulp-jmeter-videostreaming-plugin,ulp-jmeter-gwt-plugin,tilln-iso8583
 
                 # Validate Jmeter Version
-                cd apache-jmeter-5.5/bin
+                cd ../
+                cd bin/
                 ./jmeter.sh --version
 
                 # Move Jmeter to OPT and Put Jmeter in PATH variable
+                cd ../../
                 cp -r apache-jmeter-5.5 /opt/
                 nano .profile
                 JMETER_HOME="/opt/apache-jmeter-5.5"
@@ -242,15 +244,15 @@ stages:
                 jmeter --version
 
                 # Unzip Folder
-                cd /home/devopsagent/azagent/_work/1/jmeter-test/
+                cd $(Pipeline.Workspace)/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
                 cd $(Build.BuildId)-perftests
                 jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
                 jmeter -n -t endurance-test.jmx -l endurance-result.csv -e -f -o endurance-report.html -j endurance-test-suite.log
                 # cat stress-test-suite.log 
-                # cat endurance-test-suite.log                                                                    
-              workingDirectory: $(Pipeline.Workspace)/jmeter-test/      
-              displayName: 'Run JMeter Tests'
+                # cat endurance-test-suite.log            
+              # ToDo: Use the artifact name from the task above                                                        
+              workingDirectory: $(Pipeline.Workspace)/jmeter-test      
 
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
