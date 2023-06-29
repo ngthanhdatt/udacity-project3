@@ -205,8 +205,10 @@ stages:
                 sudo apt-get update
                 sudo apt install -y default-jre
                 sudo apt install -y default-jdk
+                sudo apt-get -y install zip
                 curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
                 tar -xvf apache-jmeter-5.5.tgz
+                sudo apt-get -y install zip
                 sudo mv $(Pipeline.Workspace)/jmeter-test/apache-jmeter-5.5 /opt
                 echo 'export PATH="$PATH:/opt/apache-jmeter-5.5/bin"' >> ~/.bashrc
                 source ~/.bashrc
@@ -215,6 +217,7 @@ stages:
                 cd $(Pipeline.Workspace)/jmeter-test/
                 unzip $(Build.BuildId)-perftests.zip -d $(Build.BuildId)-perftests
                 cd $(Build.BuildId)-perftests
+                pwd
                 jmeter --version
                 jmeter -n -t stress-test.jmx -l stress-result.csv -e -f -o stress-report.html -j stress-test-suite.log
                 jmeter -n -t endurance-test.jmx -l endurance-result.csv -e -f -o endurance-report.html -j endurance-test-suite.log
