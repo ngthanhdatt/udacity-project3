@@ -1,0 +1,21 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1688097628561,71053,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,71052,0,299
+1688097628941,70673,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,70672,0,29
+1688097699616,73,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,73,0,51
+1688097699616,76,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,76,0,59
+1688097699690,5,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,5,0,0
+1688097699693,5,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699695,5,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,5,0,0
+1688097699698,4,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699700,4,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699705,4,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699709,4,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699713,5,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699703,17,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,16,0,0
+1688097699718,5,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,5,0,0
+1688097699723,5,GET All Activities,404,Not Found,Stress Test 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699720,9,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,1,1,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,9,0,0
+1688097699729,4,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,1,1,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699734,4,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,1,1,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699739,4,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,1,1,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097699743,5,GET All Activities,404,Not Found,Stress Test 1-2,text,false,,341,196,1,1,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,5,0,0

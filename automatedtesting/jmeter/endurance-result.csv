@@ -1,0 +1,5 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1688097703212,237,GET All Activities,404,Not Found,Endurance Tests 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,237,0,219
+1688097703218,232,GET All Activities,404,Not Found,Endurance Tests 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,232,0,211
+1688097703452,4,GET All Activities,404,Not Found,Endurance Tests 1-2,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
+1688097703453,4,GET All Activities,404,Not Found,Endurance Tests 1-1,text,false,,341,196,2,2,https://myApplication-AppService-appservice.azurewebsites.net/api/Activities,4,0,0
