@@ -18,10 +18,18 @@ def login (driver, user, password):
     print (f'{log()} Starting the browser...')
     print (f'{log()} Browser started successfully. Navigating to the demo page to login.')
     driver.get(URL_LOGIN)
-    # print ('Login with user: {},  password: {}'.format(user, password))
-    driver.find_element(By.NAME, 'user-name').send_keys(user)
-    driver.find_element(By.NAME, 'password').send_keys(password)
-    driver.find_element(By.NAME, 'login-button').click()
+    username = driver.find_element(By.ID, 'user-name')
+    username_input.send_keys(user)
+    print(f'{log()} Username: {user} ')
+
+    password = driver.find_element(By.ID, 'password')
+    password.send_keys(password)
+    print(f'{log()} Password ')
+
+    login = driver.find_element(By.ID,'login-button')
+    print(f'{log()} Username and password submitted')
+    login.click()
+
     assert URL_INVENTORY in driver.current_url
     print (f'{log()} Test Login Success')
 
@@ -33,7 +41,7 @@ def add_items(driver):
         item_name = i.find_element(By.CLASS_NAME,'inventory_item_name').text
         shopping_cart.append(item_name)
         i.find_element(By.CLASS_NAME,'btn_inventory').click()
-        print(f'{log()} Add {} to cart'.format(item_name))
+        print(f'{log()} {item_name} added to the cart')
     cart_item = driver.find_element(By.CLASS_NAME,'shopping_cart_badge')
     assert int(cart_item.text) == len(list_items)
 
@@ -49,11 +57,10 @@ def remove_items(driver):
     print (f'{log()} Remove items from the cart')
     driver.find_element(By.CLASS_NAME,'shopping_cart_link').click()
     assert URL_CART in driver.current_url
-    print(f'{log()} Items in Cart: {}'.format(len(driver.find_elements(By.CLASS_NAME,'cart_item'))))
     for i in driver.find_elements(By.CLASS_NAME,'cart_item'):
         item_name = i.find_element(By.CLASS_NAME,'inventory_item_name').text
         i.find_element(By.CLASS_NAME,'cart_button').click()
-        print(f'{log()} Removed {} from cart'.format(item_name))
+        print(f'{log()} {item_name} removed from the cart')
     cart_items = len(driver.find_elements(By.CLASS_NAME,'cart_item'))
     assert cart_items == 0
     print(f'{log()} Finshed testing removing items from the cart')
