@@ -18,7 +18,7 @@ def login (driver, user, password):
     print (f'{log()} Starting the browser...')
     print (f'{log()} Browser started successfully. Navigating to the demo page to login.')
     driver.get(URL_LOGIN)
-    print ('Login with user: {},  password: {}'.format(user, password))
+    # print ('Login with user: {},  password: {}'.format(user, password))
     driver.find_element(By.NAME, 'user-name').send_keys(user)
     driver.find_element(By.NAME, 'password').send_keys(password)
     driver.find_element(By.NAME, 'login-button').click()
