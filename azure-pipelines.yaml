@@ -280,9 +280,10 @@ stages:
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
                 sudo pip3 install selenium
-                
+
                 cd $(Pipeline.Workspace)/selenium-test
                 unzip $(Build.BuildId)-uitests.zip -d $(Build.BuildId)-uitests
+                cd $(Build.BuildId)-uitests
                 wget https://chromedriver.storage.googleapis.com/112.0.5615.49/chromedriver_linux64.zip 
                 unzip -o chromedriver_linux64.zip
                 sudo ln -s $PWD/chromedriver /usr/bin/chromedriver
