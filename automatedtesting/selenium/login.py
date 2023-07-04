@@ -20,7 +20,7 @@ def login (driver, user, password):
     print (f'{log()} Browser started successfully. Navigating to the demo page to login.')
     driver.get(URL_LOGIN)
     username = driver.find_element(By.ID, 'user-name')
-    username_input.send_keys(user)
+    username.send_keys(user)
     print(f'{log()} Username: {user} ')
 
     password = driver.find_element(By.ID, 'password')
