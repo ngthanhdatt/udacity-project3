@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 import logging
+import datetime
 
 def log():
     time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
