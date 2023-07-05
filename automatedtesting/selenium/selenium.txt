@@ -1,0 +1,20 @@
+LOG 04.07.2023 10:05:02 Starting the browser...
+LOG 04.07.2023 10:05:04 Browser started successfully. Navigating to the demo page to login.
+LOG 04.07.2023 10:05:05 User standard_user logged in successfully
+LOG 04.07.2023 10:05:05 Starting to add products to the cart
+LOG 04.07.2023 10:05:05 Sauce Labs Backpack added to the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Bike Light added to the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Bolt T-Shirt added to the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Fleece Jacket added to the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Onesie added to the cart
+LOG 04.07.2023 10:05:06 Test.allTheThings() T-Shirt (Red) added to the cart
+LOG 04.07.2023 10:05:06 All products added to the cart successfully
+LOG 04.07.2023 10:05:06 Navigating to cart page
+LOG 04.07.2023 10:05:06 Number of items in the cart 6
+LOG 04.07.2023 10:05:06 Sauce Labs Backpack removed from the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Bike Light removed from the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Bolt T-Shirt removed from the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Fleece Jacket removed from the cart
+LOG 04.07.2023 10:05:06 Sauce Labs Onesie removed from the cart
+LOG 04.07.2023 10:05:06 Test.allTheThings() T-Shirt (Red) removed from the cart
+LOG 04.07.2023 10:05:06 All products removed from the cart successfully
